@@ -1,4 +1,5 @@
 CREATE TABLE audit_logs (
      id                 SERIAL PRIMARY KEY,
-     log                VARCHAR(255)
+     tenantId           VARCHAR(255), 
+     log                jsonb
 );

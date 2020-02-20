@@ -49,6 +49,7 @@ services:
         - ./postgresql-42.2.10.jar:/usr/share/logstash/vendor/jar/jdbc/postgresql-42.2.10.jar
     command: bash -c "
             logstash-plugin install logstash-output-jdbc
+            && logstash-plugin install logstash-filter-json
             && /usr/local/bin/docker-entrypoint
         "
     depends_on:

@@ -11,12 +11,11 @@ docker-compose up
 ```
 
 ## Use
-1. Add new lines in the `input.log` file and save it
-2. Connect to [adminer](http://localhost:8080/)
+1. Connect to [adminer](http://localhost:8080/)
     * **system**: PostgreSQL
     * **server**: db
     * **username**: log
     * **password**: log
     * **database**: log
-3. Select data from `audit_logs` table via [this link](http://localhost:8080/?pgsql=db&username=log&db=log&ns=public&select=audit_logs)
-4. The lines should have been added to the `audit_logs` table
+2. Select data from `audit_logs` table via [this link](http://localhost:8080/?pgsql=db&username=log&db=log&ns=public&select=audit_logs)
+3. `audit_logs` table must have been filled with data
