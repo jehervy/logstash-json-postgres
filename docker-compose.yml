@@ -1,0 +1,57 @@
+version: '2'
+
+networks:
+  log_internal:
+    external: false
+
+services:
+
+  postgres:
+    image: postgres:${POSTGRES_VERSION}
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_PASSWORD=log
+      - POSTGRES_USER=log
+    networks:
+      - log_internal
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  adminer:
+    image: adminer
+    ports:
+      - 8080:8080
+    networks:
+      - log_internal
+    links:
+      - postgres:db
+
+  elasticsearch:
+    image: elasticsearch:${LOGSTASH_VERSION}
+    ports:
+      - 9300:9300
+      - 9200:9200
+    environment:
+      - discovery.type=single-node
+    networks:
+      - log_internal
+
+  logstash:
+    image: docker.elastic.co/logstash/logstash:${LOGSTASH_VERSION}
+    ports:
+        - 9600:9600
+    networks:
+        - log_internal
+    volumes:
+        - ./logstash.conf:/usr/share/logstash/pipeline/logstash.conf
+        - ./input.log:/tmp/input.log
+        - ./postgresql-42.2.10.jar:/usr/share/logstash/vendor/jar/jdbc/postgresql-42.2.10.jar
+    command: bash -c "
+            logstash-plugin install logstash-output-jdbc
+            && /usr/local/bin/docker-entrypoint
+        "
+    depends_on:
+      - postgres
+    links:
+      - postgres
