@@ -1,4 +1,4 @@
-# Platform Services Audit Logs
+# Logstash JSON Postgres
 
 ## Intro
 This proof of concept tends to validate the usage of [Logstash Output JDBC plugin](https://github.com/theangryangel/logstash-output-jdbc) 
